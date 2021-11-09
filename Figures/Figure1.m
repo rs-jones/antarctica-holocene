@@ -26,9 +26,9 @@ clear % Start fresh
 addpath(genpath('..'))
 
 % Load data
-load L14
-load F20
-load E21
+load Holocene_L14
+load Historical_F20
+load Future_E21
 
 
 % Specify parameters for the figure
@@ -39,7 +39,8 @@ mmyr_lim = [0,25];          % Bounds for rate of change (y axis)
 lwidth = 1;                 % Plotted linewidth
 fsize = 7;                  % Font size
 
-figure;
+
+figure
 
 % Holocene
 ax1 = subplot(3,3,1);
@@ -50,7 +51,7 @@ ylabel({'mm per year'});
 xlabel('Years ago');
 title('Holocene'); ax1.FontSize = fsize;
 
-% 20th Century
+% Historical (20th Century)
 ax2 = subplot(3,3,2);
 plot(F20.time,F20.Rate.Obs_m*1000,'k-','linewidth',lwidth); hold on;
 plot(F20.time,F20.Rate.Ant_m*1000,'r-','linewidth',lwidth);
