@@ -53,7 +53,7 @@ function elevChange_binned = getTransectElevChange(ages_errs,elev_masl,interp_ti
     for ii = 1:max(annual2bins)
         this_bin_id = uniq_bins(ii);
         this_bin_log = this_bin_id == annual2bins;
-        elevChange_binned(ii) = nanmin(interpolated_elev(this_bin_log))-nanmax(interpolated_elev(this_bin_log));
+        elevChange_binned(ii) = min(interpolated_elev(this_bin_log),[],'omitnan')-max(interpolated_elev(this_bin_log),[],'omitnan');
     end
     elevChange_binned(isnan(elevChange_binned)) = 0;
     elevChange_binned(elevChange_binned>0) = 0;
