@@ -32,7 +32,7 @@ clear % Start fresh
 addpath(genpath('..'))
 
 % Load data
-load SeaLevel_Ant
+load RelativeSeaLevel
 load coastlines; 
 land = shaperead('landareas','UseGeoCoords',true);
 
@@ -64,7 +64,7 @@ c3 = colorbar(ax1,'FontSize',f_size);  c3.Label.String = 'Ice thickness change (
 ax1.Box = 'off'; ax1.Color = 'none'; ax1.XColor = 'none'; ax1.YColor = 'none';
 c3.Ticks = [-1500,0];  c3.TickLabels = string([-1500,0]);
 ax1.FontSize = f_size;
-title('Early-to-Mid Holocene rapid ice loss','FontSize',f_size);
+title('Early to Mid Holocene rapid ice loss','FontSize',f_size);
 
 % Ice gain
 subplot(2,2,2);
@@ -77,7 +77,7 @@ c4 = colorbar(ax2,'FontSize',f_size);  c4.Label.String = 'Ice thickness change (
 c4.Ticks = [-500,0,1000];  c4.TickLabels = string([-500,0,1000]);
 ax2.Box = 'off'; ax2.Color = 'none'; ax2.XColor = 'none'; ax2.YColor = 'none';
 ax2.FontSize = f_size;
-title('Mid-to-Late Holocene ice gain ','FontSize',f_size);
+title('Mid to Late Holocene ice gain ','FontSize',f_size);
 
 
 % Global relative sea level change
@@ -99,11 +99,11 @@ cticks_icegain = [min(RSL_intervals_icegain):max(RSL_intervals_icegain)/2:max(RS
 subplot(2,2,3);
 ax3 = axesm('robinson','MapLatLimit',latlim_Glob,'MapLonLimit',lonlim_Glob,'Frame','on');
 surfm(RSL.lat,RSL.lon,RSL.rapidloss.ISM_mean.EM_mean); hold on;
-plotm(lats(mask_rapidloss_nosig),lons(mask_rapidloss_nosig),'xk','MarkerSize',s_size);
+plotm(stipple_lats(mask_rapidloss_nosig),stipple_lons(mask_rapidloss_nosig),'xk','MarkerSize',s_size);
 geoshow(ax3,land,'FaceColor','w')
 caxis([min(RSL_intervals_rapidloss) max(RSL_intervals_rapidloss)]);
 cmap = crameri('roma',(numel(RSL_intervals_rapidloss)-1)*2,'pivot',0); colormap(ax3,cmap);
-c1 = colorbar(ax3,'southoutside','FontSize',f_size);  c1.Label.String = 'Relative sea level change (m)';
+c1 = colorbar(ax3,'southoutside','FontSize',f_size);  c1.Label.String = 'Relative sea-level change (m)';
 c1.Ticks = cticks_rapidloss;  c1.TickLabels = string(cticks_rapidloss);  %c1.Position(3) = c1.Position(3)*0.8;
 ax3.Box = 'off'; ax3.Color = 'none'; ax3.XColor = 'none'; ax3.YColor = 'none';
 
@@ -111,11 +111,11 @@ ax3.Box = 'off'; ax3.Color = 'none'; ax3.XColor = 'none'; ax3.YColor = 'none';
 subplot(2,2,4);
 ax4 = axesm('robinson','MapLatLimit',latlim_Glob,'MapLonLimit',lonlim_Glob,'Frame','on');
 surfm(RSL.lat,RSL.lon,RSL.icegain.ISM_max.EM_mean); hold on;
-plotm(lats(mask_icegain_nosig),lons(mask_icegain_nosig),'xk','MarkerSize',s_size);
+plotm(stipple_lats(mask_icegain_nosig),stipple_lons(mask_icegain_nosig),'xk','MarkerSize',s_size);
 geoshow(ax4,land,'FaceColor','w')
 caxis([min(RSL_intervals_icegain) max(RSL_intervals_icegain)]);
 cmap = crameri('roma',(numel(RSL_intervals_icegain)-1)*2,'pivot',0); colormap(ax4,cmap);
-c2 = colorbar(ax4,'southoutside','FontSize',f_size);  c2.Label.String = 'Relative sea level change (m)';
+c2 = colorbar(ax4,'southoutside','FontSize',f_size);  c2.Label.String = 'Relative sea-level change (m)';
 c2.Ticks = cticks_icegain;  c2.TickLabels = string(cticks_icegain);
 ax4.Box = 'off'; ax4.Color = 'none'; ax4.XColor = 'none'; ax4.YColor = 'none';
 
