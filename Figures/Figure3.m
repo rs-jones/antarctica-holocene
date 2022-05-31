@@ -30,10 +30,10 @@ load GroundingLine
 %% Map grounding line retreat ages and locations of readvance
 
 % Specify parameters for the figure
-Holocene_time = [0,11650];  % Time period (years ago)
+Holocene_time = [0,11700];  % Time period (years ago)
 latlim = [-90,-61];         % Latitudes (min, max)
-f_size = 14;                % Font size
-m_size = 12;                % Marker size
+f_size = 12;                % Font size
+m_size = 7;                % Marker size
 
 % Define colours
 retreat_cols = cmocean('matter',max(Holocene_time)+2000);
@@ -62,19 +62,19 @@ end
 for ii = 1:numel(Retreat_data.chronology)
     this_site = Retreat_data.chronology{ii};
     if this_site.Holocene
-        if this_site.age_mid > max(Holocene_lim)
+        if this_site.age_mid > max(Holocene_time)
             this_retreat_col = retreat_cols(end,:);
         else
             this_retreat_col = retreat_cols(round(this_site.age_mid),:);
         end
         this_h = plotm(this_site.latlon(1,:),'o','Color','w','MarkerFaceColor',this_retreat_col,'MarkerSize',m_size);
-        if this_site.age_mid > max(Holocene_lim)
+        if this_site.age_mid > max(Holocene_time)
             maxH_h = this_h;
         end
     end
 end
 ax=gca;
-leg_marker_times = [11.65,10,8,6,4,2,0.001]*1000;
+leg_marker_times = [11.7,10,8,6,4,2,0.001]*1000;
 for i = 1:numel(leg_marker_times)
     this_retreat_col = retreat_cols(leg_marker_times(i),:);
     Hol_h(i) = plotm(90,0,'o','Color','w','MarkerFaceColor',this_retreat_col,'MarkerSize',m_size);
@@ -89,7 +89,7 @@ ax.Color = 'none'; ax.XColor = 'none'; ax.YColor = 'none'; ax.FontSize = f_size;
 %% Grounding line retreat probability curves
 
 % Specify parameters for the figure
-Holocene_time = [0,11650];  % Time period (years ago)
+Holocene_time = [0,11700];  % Time period (years ago)
 font_sz = 15;               % Font size
 
 % Define colours
