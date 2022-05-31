@@ -51,7 +51,7 @@ load ThicknessChange_IceCore
 %% Ice thickness change from cosmogenic exposure data
 
 % Specify parameters for the figure
-Holocene_time = [0,11650];  % Time period (years ago)
+Holocene_time = [0,11700];  % Time period (years ago)
 interval = 1000;            % Time interval for bins (years)
 font_sz = 10;               % Font size
 
@@ -137,10 +137,10 @@ end
 
 % Average elevation change across sites for each sector
 for ddd = 1:numel(cosmo_elevChange)
-    sect_elevChange_binned(:,ddd) = nanmean(cosmo_elevChange{ddd}.elevChange_binned);
+    sect_elevChange_binned(:,ddd) = mean(cosmo_elevChange{ddd}.elevChange_binned,'omitnan');
 end
 sect_elevChange_binned(isnan(sect_elevChange_binned)) = 0;
-elevChange_binned_summed = nansum(sect_elevChange_binned,2); % Summed across sectors
+elevChange_binned_summed = sum(sect_elevChange_binned,2,'omitnan'); % Summed across sectors
 
 
 figure;
@@ -175,7 +175,7 @@ for bb = 1:numel(transects_bySector)
     this_text = {sector_name,strcat('n=',num2str(n_sites),'(',num2str(n_samples),')')};
     text(500,bb,this_text,'HorizontalAlignment','right','FontSize',font_sz);
 end
-cbar1 = colorbar(ax2,'Location','westoutside');
+cbar1 = colorbar(ax2,'Location','southoutside');
 ylabel(cbar1,{'Ice surface elevation change','(m per 1000 years)'},'FontSize',font_sz);
 ax2.YTick = []; ylim([.5,numel(cosmo_elevChange)+.5]); 
 xlim(Holocene_time); ax2.XDir = 'reverse'; ax2.XTickLabels=[];
@@ -184,7 +184,7 @@ ax2.FontSize = font_sz; box on; ax2.LineWidth = 2;
 % Plot sum of sectors
 ax3 = subplot(3,1,3);
 imagesc('XData',bin_mid,'YData',1,'CData',elevChange_binned_summed')
-colormap(ax3,gray(8)); caxis([-400,0]); cbar2 = colorbar(ax3,'Location','eastoutside');
+colormap(ax3,gray(8)); caxis([-400,0]); cbar2 = colorbar(ax3,'Location','southoutside');
 ylabel(cbar2,'Sum of sectors (m)','FontSize',font_sz); ax3.YTick = []; ylim([.5,1.5]);
 xlim(Holocene_time); ax3.XDir = 'reverse'; xlabel('Years ago');
 ax3.FontSize = font_sz; box on;  ax3.LineWidth = 2;
@@ -201,8 +201,11 @@ ax3_height = ax2_height/numel(cosmo_elevChange);
 ax1.Position([1,3,4])=[plot_xpos,plot_width,ax1_height];
 ax2.Position=[plot_xpos,ax2_ypos,plot_width,ax2_height];
 ax3.Position=[plot_xpos,ax3_ypos,plot_width,ax3_height];
-cbar2.Position([3,4])=cbar1.Position([3,4]); 
-cbar2.Position(1)=cbar2.Position(1)-0.02;
+cbar1.Position(2)=cbar1.Position(2)-0.15;
+cbar2.Position([2,4])=cbar1.Position([2,4]);
+cbar1.Position(3)=(cbar1.Position(3)/2) -0.02;
+cbar2.Position(3)=cbar1.Position(3);
+cbar2.Position(1)=cbar1.Position(1)+cbar2.Position(3)+(0.02*2);
 fig = gcf; fig.WindowState = 'maximized';
 
 
@@ -264,13 +267,21 @@ for bb = 1:numel(IceCore_acc)
     core_name = IceCore_acc{this_core_idx}.sitename;
     text(500,bb,core_name,'HorizontalAlignment','right','FontSize',font_sz);
 end
-cbar=colorbar('Location','westoutside'); ax=gca;
+cbar=colorbar('Location','southoutside'); ax=gca;
 ylabel(cbar,strcat({'Accumulation rate anomaly  (m per '},num2str(interval),{' years)'}),'FontSize',font_sz); % Sum
-cbar.Position([1,4])=[ax.Position(1)-.15,ax.Position(4)/2];
 ylim([.5,numel(IceCore_acc)+.5]);
 ax.YTick=[1.5,2.5,3.5,4.5,5.5,6.5]; ax.YTickLabel=string([surf_lim,surf_lim,surf_lim]); ylabel('Ice surface elevation anomaly (m)');
 xlim(Holocene_time); ax.XDir='reverse'; xlabel('Years ago');
 ax.FontSize=font_sz; box on; ax.LineWidth=2;
 ax.TickDir='out'; ax.YAxisLocation='right';
+
+
+% Adjust plot positions
+plot_xpos = 0.15;
+plot_width = 0.7;
+ax_height = 0.7;
+ax.Position([1,3,4])=[plot_xpos,plot_width,ax_height];
+cbar.Position(1)=cbar.Position(1)+0.17;
+cbar.Position(3)=cbar.Position(3)/2;
 fig = gcf; fig.WindowState = 'maximized';
 
