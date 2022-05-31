@@ -151,7 +151,7 @@ for i = 1:numel(models)
             ivolChange_bySector.Gt_perYear(ii,iii,i) = ivolChange_bySector.kg_perYear(ii,iii,i) * 1e-12; % Convert to Gt (per year)
             
         end
-        this_model_thkDiff_mean(ii) = nanmean(this_thkDiff_arr);
+        this_model_thkDiff_mean(ii) = mean(this_thkDiff_arr,'omitnan');
     end
     
 end
@@ -199,8 +199,8 @@ figure
 
 % Mean ice thickness change in Early, Mid and Late Holocene
 ax1 = subplot(2,3,1);
-title(strcat('Early Holocene (',num2str(EarlyHol_period(1)/1000),{' to '},num2str(EarlyHol_period(2)/1000),{' kyrs)'}));
-axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on');
+title(strcat('Early Holocene (',num2str(round(-EarlyHol_period(1)/1000,1)),{' to '},num2str(-EarlyHol_period(2)/1000),{' kyr)'}));
+axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on'); % 'Frame','on','Grid','on','MeridianLabel','on','ParallelLabel','on'
 surfm(std_model.lat_grid,std_model.lon_grid,EH_thkChange_mean); hold on;
 plotm(Ant_GL.lat,Ant_GL.lon,'k-');
 cmap = cmocean('-balance','pivot',0); colormap(ax1,cmap);
@@ -209,8 +209,8 @@ ax1.Box = 'off'; ax1.Color = 'none'; ax1.XColor = 'none'; ax1.YColor = 'none';
 ax1.FontSize = f_size;
 
 ax2 = subplot(2,3,2);
-title(strcat('Mid Holocene (',num2str(MidHol_period(1)/1000),{' to '},num2str(MidHol_period(2)/1000),{' kyrs)'}));
-axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on');
+title(strcat('Mid Holocene (',num2str(-MidHol_period(1)/1000),{' to '},num2str(-MidHol_period(2)/1000),{' kyr)'}));
+axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on'); % 'Frame','on','Grid','on','MeridianLabel','on','ParallelLabel','on'
 surfm(std_model.lat_grid,std_model.lon_grid,MH_thkChange_mean); hold on;
 plotm(Ant_GL.lat,Ant_GL.lon,'k-');
 cmap = cmocean('-balance','pivot',0); colormap(ax2,cmap);
@@ -219,8 +219,8 @@ ax2.Box = 'off'; ax2.Color = 'none'; ax2.XColor = 'none'; ax2.YColor = 'none';
 ax2.FontSize = f_size;
 
 ax3 = subplot(2,3,3);
-title(strcat('Late Holocene (',num2str(LateHol_period(1)/1000),{' to '},num2str(LateHol_period(2)/1000),{' kyrs)'}));
-axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on');
+title(strcat('Late Holocene (',num2str(-LateHol_period(1)/1000),{' to '},num2str(-LateHol_period(2)/1000),{' kyr)'}));
+axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on'); % 'Frame','on','Grid','on','MeridianLabel','on','ParallelLabel','on'
 surfm(std_model.lat_grid,std_model.lon_grid,LH_thkChange_mean); hold on;
 plotm(Ant_GL.lat,Ant_GL.lon,'k-');
 cmap = cmocean('-balance','pivot',0); colormap(ax3,cmap);
@@ -231,29 +231,29 @@ ax3.FontSize = f_size;
 
 % Standard deviation of ice thickness change in Early, Mid and Late Holocene
 ax4 = subplot(2,3,4);
-axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on');
+axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on'); % 'Frame','on','Grid','on','MeridianLabel','on','ParallelLabel','on'
 surfm(std_model.lat_grid,std_model.lon_grid,EH_thkChange_stdev); hold on;
 plotm(Ant_GL.lat,Ant_GL.lon,'k-');
 cmap = cmocean('speed'); colormap(ax4,cmap);
-c4 = colorbar(ax4,'FontSize',f_size);  c4.Label.String = 'Standard deviation';
+c4 = colorbar(ax4,'FontSize',f_size);  c4.Label.String = 'Standard deviation (m)';
 ax4.Box = 'off'; ax4.Color = 'none'; ax4.XColor = 'none'; ax4.YColor = 'none';
 ax4.FontSize = f_size;
 
 ax5 = subplot(2,3,5);
-axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on');
+axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on'); % 'Frame','on','Grid','on','MeridianLabel','on','ParallelLabel','on'
 surfm(std_model.lat_grid,std_model.lon_grid,MH_thkChange_stdev); hold on;
 plotm(Ant_GL.lat,Ant_GL.lon,'k-');
 cmap = cmocean('speed'); colormap(ax5,cmap);
-c5 = colorbar(ax5,'FontSize',f_size);  c5.Label.String = 'Standard deviation';
+c5 = colorbar(ax5,'FontSize',f_size);  c5.Label.String = 'Standard deviation (m)';
 ax5.Box = 'off'; ax5.Color = 'none'; ax5.XColor = 'none'; ax5.YColor = 'none';
 ax5.FontSize = f_size;
 
 ax6 = subplot(2,3,6);
-axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on');
+axesm('stereo','MapLatLimit',[-90 -60],'FontSize',7,'Grid','on','Frame','on'); % 'Frame','on','Grid','on','MeridianLabel','on','ParallelLabel','on'
 surfm(std_model.lat_grid,std_model.lon_grid,LH_thkChange_stdev); hold on;
 plotm(Ant_GL.lat,Ant_GL.lon,'k-');
 cmap = cmocean('speed'); colormap(ax6,cmap);
-c6 = colorbar(ax6,'FontSize',f_size);  c6.Label.String = 'Standard deviation';
+c6 = colorbar(ax6,'FontSize',f_size);  c6.Label.String = 'Standard deviation (m)';
 ax6.Box = 'off'; ax6.Color = 'none'; ax6.XColor = 'none'; ax6.YColor = 'none';
 ax6.FontSize = f_size;
 
