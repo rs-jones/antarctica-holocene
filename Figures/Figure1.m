@@ -32,7 +32,7 @@ load Future_E21
 
 
 % Specify parameters for the figure
-time_Hol = [100,11650];     % Time bounds for the Holocene (years ago, from 1950 CE)
+time_Hol = [100,11700];     % Time bounds for the Holocene (years ago, from 1950 CE)
 time_C20 = [1908,2010];     % Time bounds for historical observations (years CE)
 time_future = [2020,2100];  % Time bounds for future projections (years CE)
 mmyr_lim = [0,25];          % Bounds for rate of change (y axis)
