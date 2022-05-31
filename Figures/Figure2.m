@@ -212,7 +212,7 @@ fig = gcf; fig.WindowState = 'maximized';
 %% Ice thickness change from ice core data
 
 % Specify parameters for the figure
-Holocene_time = [0,11650];  % Time period (years ago)
+Holocene_time = [0,11700];  % Time period (years ago)
 interval = 500; % Set time interval for bins (years)
 font_sz = 10;               % Font size
 
@@ -227,7 +227,7 @@ for i = 1:numel(IceCore_acc)
     acc_time = IceCore_acc{i}.acc.time;
     this_interp_acc = interp1(acc_time,IceCore_acc{i}.acc.mid,interp_time,'linear');
     preInd_idx = find(interp_time<=250 & interp_time>=100);
-    this_acc_preInd = nanmean(this_interp_acc(preInd_idx));
+    this_acc_preInd = mean(this_interp_acc(preInd_idx),'omitnan');
     interpolated_acc_anom = this_interp_acc - this_acc_preInd;
     
     % Bin accumulation for each time interval
@@ -237,7 +237,7 @@ for i = 1:numel(IceCore_acc)
     for ii = 1:max(annual2bins)
         this_bin_id = uniq_bins(ii);
         this_bin_log = this_bin_id == annual2bins;
-        this_acc_anom_binned(ii) = nansum(interpolated_acc_anom(this_bin_log));
+        this_acc_anom_binned(ii) = sum(interpolated_acc_anom(this_bin_log),[],'omitnan');
     end
     this_acc_anom_binned(isnan(this_acc_anom_binned)) = 0; % Make NaNs zeros
     acc_anom_binned(i,:) = this_acc_anom_binned;
@@ -278,10 +278,12 @@ ax.TickDir='out'; ax.YAxisLocation='right';
 
 % Adjust plot positions
 plot_xpos = 0.15;
+plot_ypos = 0.25;
 plot_width = 0.7;
 ax_height = 0.7;
-ax.Position([1,3,4])=[plot_xpos,plot_width,ax_height];
+ax.Position=[plot_xpos,plot_ypos,plot_width,ax_height];
 cbar.Position(1)=cbar.Position(1)+0.17;
+cbar.Position(2)=cbar.Position(2)+0.05;
 cbar.Position(3)=cbar.Position(3)/2;
 fig = gcf; fig.WindowState = 'maximized';
 
